@@ -46,10 +46,6 @@ public abstract class VillageSiegeMixin {
         ResourceLocation chosenId = ResourceLocation.parse(SiegeConfig.SPAWNABLE_ENTITIES.shuffle().stream().findFirst().orElse(""));
 
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(chosenId);
-        if (type.equals(BuiltInRegistries.ENTITY_TYPE.getAny().orElseThrow().value())) {
-            CustomSiege.LOGGER.error("Invalid entity type in SiegeConfig: {}", chosenId);
-            return;
-        }
 
         Entity entity = type.create(level);
         if (entity instanceof Mob mob) {
