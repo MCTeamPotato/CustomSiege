@@ -43,7 +43,7 @@ public abstract class VillageSiegeMixin {
         Vec3 vec3 = this.findRandomSpawnPos(level, new BlockPos(this.spawnX, this.spawnY, this.spawnZ));
         if (vec3 == null) return;
 
-        ResourceLocation chosenId = ResourceLocation.parse(SiegeConfig.SPAWNABLE_ENTITIES.shuffle().stream().findFirst().orElse(""));
+        ResourceLocation chosenId = ResourceLocation.tryParse(SiegeConfig.SPAWNABLE_ENTITIES.shuffle().stream().findFirst().orElse(""));
 
         EntityType<?> type = ForgeRegistries.ENTITIES.getValue(chosenId);
         if (type == null) {
@@ -52,8 +52,8 @@ public abstract class VillageSiegeMixin {
         }
 
         Entity entity = type.create(level);
-        if (entity instanceof Mob mob) {
-
+        if (entity instanceof Mob) {
+            Mob mob = (Mob) entity;
             if (difficulty_cache == null) difficulty_cache = level.getCurrentDifficultyAt(mob.blockPosition());
 
             mob.finalizeSpawn(level, difficulty_cache, MobSpawnType.EVENT, null, null);
