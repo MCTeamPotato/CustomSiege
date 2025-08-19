@@ -39,7 +39,6 @@ public abstract class VillageSiegeMixin {
      * @reason Weight-based entities spawning.
      */
     @Overwrite
-    @SuppressWarnings("all")
     private void trySpawn(ServerLevel level) {
         Vec3 vec3 = this.findRandomSpawnPos(level, new BlockPos(this.spawnX, this.spawnY, this.spawnZ));
         if (vec3 == null) return;
@@ -47,7 +46,7 @@ public abstract class VillageSiegeMixin {
         ResourceLocation chosenId = ResourceLocation.parse(SiegeConfig.SPAWNABLE_ENTITIES.shuffle().stream().findFirst().orElse(""));
 
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(chosenId);
-        if (type == null) {
+        if (type.equals(BuiltInRegistries.ENTITY_TYPE.getAny().orElseThrow().value())) {
             CustomSiege.LOGGER.error("Invalid entity type in SiegeConfig: {}", chosenId);
             return;
         }
